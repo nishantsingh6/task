@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from './Spinner';
+import {toast} from 'react-toastify';
+import { useState } from 'react';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,22 +16,18 @@ const Signup = () => {
     reset,
   } = useForm();
 
-  const [serverMsg, setServerMsg] = React.useState({ type: '', text: '' });
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
-    setServerMsg({});
     try {
       const response = await axios.post('http://localhost:5000/api/auth/signup', data);
-      setServerMsg({ type: 'success', text: response.data.message });
+      toast.success(response?.data?.message || "User Created Successfully");
       reset();
 
       // Optional: Redirect to login after a short delay
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
-      setServerMsg({
-        type: 'error',
-        text: err.response?.data?.message || 'Something went wrong',
-      });
+      toast.error(err.response?.data?.message || 'Something went wrong');
     }
   };
 
@@ -37,12 +35,6 @@ const Signup = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Create an Account</h2>
-
-        {serverMsg.text && (
-          <div className={`mb-4 text-sm text-center ${serverMsg.type === 'error' ? 'text-red-500' : 'text-green-600'}`}>
-            {serverMsg.text}
-          </div>
-        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Name */}
@@ -71,13 +63,26 @@ const Signup = () => {
           </div>
 
           {/* Password */}
+           {/* Password */}
           <div>
             <label className="block mb-1 font-medium">Password</label>
-            <input
-              type="password"
-              {...register('password', { required: 'Password is required', minLength: { value: 6, message: 'Minimum 6 characters' } })}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                {...register('password', {
+                  required: 'Password is required',
+                  minLength: { value: 6, message: 'Password must be at least 6 characters' },
+                })}
+                className="w-full px-4 py-2 border rounded pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute inset-y-0 right-2 flex items-center text-sm text-gray-600"
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
             {errors.password && <p className="text-sm text-red-500 mt-1">{errors.password.message}</p>}
           </div>
 

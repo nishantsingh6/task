@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from './Spinner';
+import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -9,18 +10,16 @@ const ResetPassword = () => {
   const token = searchParams.get('token');
 
   const [newPassword, setNewPassword] = useState('');
-  const [message, setMessage] = useState({ type: '', text: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!token) {
-      setMessage({ type: 'error', text: 'Missing or invalid token' });
+      toast.error("Missing or invalid token");
     }
   }, [token]);
 
   const handleReset = async (e) => {
     e.preventDefault();
-    setMessage({});
     setIsSubmitting(true);
 
     try {
@@ -29,15 +28,11 @@ const ResetPassword = () => {
         { newPassword }
       );
 
-      setMessage({ type: 'success', text: response.data.message });
-
+      toast.success(response?.data?.message);
       // Redirect to login after short delay
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      setMessage({
-        type: 'error',
-        text: err.response?.data?.message || 'Something went wrong',
-      });
+      toast.error(err.response?.data?.message || 'Something went wrong');
     } finally {
       setIsSubmitting(false);
     }
@@ -47,12 +42,6 @@ const ResetPassword = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Reset Your Password</h2>
-
-        {message.text && (
-          <div className={`mb-4 text-sm text-center ${message.type === 'error' ? 'text-red-500' : 'text-green-600'}`}>
-            {message.text}
-          </div>
-        )}
 
         <form onSubmit={handleReset} className="space-y-4">
           <div>
