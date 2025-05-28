@@ -25,7 +25,7 @@ const Signup = () => {
       reset();
 
       // Optional: Redirect to login after a short delay
-      setTimeout(() => navigate('/login'), 1500);
+       navigate('/login');;
     } catch (err) {
       toast.error(err.response?.data?.message || 'Something went wrong');
     }

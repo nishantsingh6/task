@@ -22,7 +22,7 @@ const Login = () => {
       localStorage.setItem('token', token);
 
       // Redirect after login (optional)
-      setTimeout(() => navigate('/dashboard'), 1000); 
+       navigate('/dashboard'); 
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
     }
