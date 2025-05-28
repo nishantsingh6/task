@@ -20,7 +20,7 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', data);
+      const response = await axios.post('https://task-sy5x.onrender.com/api/auth/signup', data);
       toast.success(response?.data?.message || "User Created Successfully");
       reset();
 

@@ -16,7 +16,7 @@ const ForgotPassword = () => {
   const onSubmit = async (data) => {
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/forgot-password', data);
+      const response = await axios.post('https://task-sy5x.onrender.com/api/auth/forgot-password', data);
       toast.success(response?.data?.message || 'Reset link sent to your email');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Something went wrong. Please try again.');

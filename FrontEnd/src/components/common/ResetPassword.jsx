@@ -24,7 +24,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/auth/reset-password?token=${token}`,
+        `https://task-sy5x.onrender.com/api/auth/reset-password?token=${token}`,
         { newPassword }
       );
 

@@ -16,7 +16,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', data);
+      const response = await axios.post('https://task-sy5x.onrender.com/api/auth/login', data);
       const { token, user } = response.data;
       toast.success('Login Successfully');
       localStorage.setItem('token', token);

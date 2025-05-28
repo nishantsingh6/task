@@ -4,6 +4,7 @@ import Login from './components/common/Login'
 import SignUp from './components/common/SignUp'
 import ForgotPassword from './components/common/ForgotPassword'
 import ResetPassword from './components/common/ResetPassword'
+import DashBoard from './components/userComponents/DashBoard'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="/login" element={<Login/>}/>
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/dashboard" element={<DashBoard/>} />
 
 
 
