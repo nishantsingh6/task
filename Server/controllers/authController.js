@@ -141,7 +141,7 @@ exports.forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
     await user.save();
 
-    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+    const resetLink = `https://task-chi-nine.vercel.app/reset-password?token=${resetToken}`;
 
   await sendEmail(user.email, 'Reset Your Password', `<p>Click here to reset: <a href="${resetLink}">${resetLink}</a></p>`);
 
