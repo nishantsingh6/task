@@ -4,6 +4,9 @@ const app = express();
 require('dotenv').config();
 app.use(express.json());
 
+const cors = require('cors');
+app.use(cors());
+
 
 const port  = process.env.PORT || 3000;
 app.listen(port, () => {
@@ -19,4 +22,4 @@ const db = require('./config/dataBase');
 db.connectDb();
 
 const routers = require('./routes/authRoutes');
-app.use("/app/test", routers);
+app.use("/api/auth", routers);
