@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from './Spinner';
-import {toast} from 'react-toastify';
-import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -16,69 +16,123 @@ const Signup = () => {
     reset,
   } = useForm();
 
-  const [showPassword, setShowPassword] = useState(false);
-
   const onSubmit = async (data) => {
     try {
       const response = await axios.post('https://task-sy5x.onrender.com/api/auth/signup', data);
       toast.success(response?.data?.message || "User Created Successfully");
       reset();
-
-      // Optional: Redirect to login after a short delay
-       navigate('/login');;
+      navigate('/login');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Something went wrong');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Create an Account</h2>
+    <div className="min-h-screen bg-black flex items-center justify-center p-4">
+      {/* Embedded CSS */}
+      <style>
+        {`
+          .form-container {
+            width: 400px;
+            background: linear-gradient(#212121, #212121) padding-box,
+                        linear-gradient(145deg, transparent 35%, #e81cff, #40c9ff) border-box;
+            border: 2px solid transparent;
+            padding: 32px 24px;
+            font-size: 14px;
+            font-family: inherit;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-sizing: border-box;
+            border-radius: 16px;
+            background-size: 200% 100%;
+            animation: gradient 5s ease infinite;
+          }
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+
+          .form-submit-btn {
+            font-family: inherit;
+            color: #717171;
+            font-weight: 600;
+            background: #313131;
+            border: 1px solid #414141;
+            padding: 12px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+
+          .form-submit-btn:hover {
+            background-color: white;
+            color: black;
+            border-color: white;
+          }
+        `}
+      </style>
+
+      <div className="form-container">
+        <h2 className="text-2xl font-bold text-center">Create an Account</h2>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           {/* Name */}
-          <div>
-            <label className="block mb-1 font-medium">Name</label>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-gray-400 text-left">Name</label>
             <input
               type="text"
               {...register('name', { required: 'Name is required' })}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Your name"
+              className="w-full px-4 py-3 rounded-lg bg-transparent text-white border border-[#414141]
+                         placeholder:text-white/50 focus:outline-none focus:border-[#e81cff]"
             />
             {errors.name && <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>}
           </div>
 
           {/* Email */}
-          <div>
-            <label className="block mb-1 font-medium">Email</label>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-gray-400 text-left">Email</label>
             <input
               type="email"
               {...register('email', {
                 required: 'Email is required',
-                pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' },
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: 'Invalid email address',
+                },
               })}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="you@example.com"
+              className="w-full px-4 py-3 rounded-lg bg-transparent text-white border border-[#414141]
+                         placeholder:text-white/50 focus:outline-none focus:border-[#e81cff]"
             />
             {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>}
           </div>
 
           {/* Password */}
-           {/* Password */}
-          <div>
-            <label className="block mb-1 font-medium">Password</label>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-gray-400 text-left">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 {...register('password', {
                   required: 'Password is required',
-                  minLength: { value: 6, message: 'Password must be at least 6 characters' },
+                  minLength: {
+                    value: 6,
+                    message: 'Password must be at least 6 characters',
+                  },
                 })}
-                className="w-full px-4 py-2 border rounded pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="********"
+                className="w-full px-4 py-3 pr-10 rounded-lg bg-transparent text-white border border-[#414141]
+                           placeholder:text-white/50 focus:outline-none focus:border-[#e81cff]"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute inset-y-0 right-2 flex items-center text-sm text-gray-600"
+                className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-400 hover:text-white"
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
@@ -90,19 +144,20 @@ const Signup = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-2 rounded transition duration-200 ${
-              isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-blue-700'
-            }`}
+            className="form-submit-btn w-2/5 self-start"
+            style={isSubmitting ? { opacity: 0.7, cursor: 'not-allowed' } : {}}
           >
-            {isSubmitting && <Spinner />}
-            {isSubmitting ? 'Signing up...' : 'Sign Up'}
+            {isSubmitting ? <Spinner /> : 'Sign Up'}
           </button>
         </form>
 
-        {/* Login Redirect */}
-        <div className="text-center mt-6 text-sm">
+        {/* Redirect to login */}
+        <div className="text-center mt-4 text-sm text-gray-400">
           Already have an account?{' '}
-          <button onClick={() => navigate('/login')} className="text-blue-600 hover:underline">
+          <button
+            onClick={() => navigate('/login')}
+            className="text-[#40c9ff] hover:underline"
+          >
             Log in
           </button>
         </div>
