@@ -23,3 +23,12 @@ db.connectDb();
 
 const routers = require('./routes/authRoutes');
 app.use("/api/auth", routers);
+
+const orgRoutes = require("./routes/organizationRoutes");
+app.use('/api/organizations', orgRoutes);
+
+const projRoutes = require("./routes/projectRoutes");
+app.use("/api/project", projRoutes);
+
+// const taskRoutes = require("./routes/taskRoutes");
+// app.use("/api/task", taskRoutes);

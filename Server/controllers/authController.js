@@ -5,35 +5,33 @@ const sendEmail = require("../utils/sendEmail");
 
 require('dotenv').config();
 
+const validRoles = ['admin', 'manager', 'member'];
+
 exports.signUp = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    // Validate input
     if (!name || !email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Please provide all required fields",
-      });
+      return res.status(400).json({ success: false, message: 'Please provide all required fields' });
     }
 
-    // Check if user already exists
+    if (role && !validRoles.includes(role)) {
+      return res.status(400).json({ success: false, message: 'Invalid role' });
+    }
+
+    // Existing user check
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "User already exists",
-      });
+      return res.status(400).json({ success: false, message: 'User already exists' });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
     const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
+      role: role || 'member',  // assign role or default
     });
 
     return res.status(201).json({
@@ -45,6 +43,7 @@ exports.signUp = async (req, res) => {
         email: newUser.email,
       },
     });
+
 
   } catch (error) {
     return res.status(500).json({
