@@ -30,5 +30,11 @@ app.use('/api/organizations', orgRoutes);
 const projRoutes = require("./routes/projectRoutes");
 app.use("/api/project", projRoutes);
 
-// const taskRoutes = require("./routes/taskRoutes");
-// app.use("/api/task", taskRoutes);
+const taskRoutes = require("./routes/taskRoutes");
+app.use("/api/task", taskRoutes);
+
+const commentRoutes = require("./routes/commentRoutes");
+app.use("/api/comment", commentRoutes);
+
+const analysis = require('./routes/analyticsRoutes');
+app.use("/api/analysis", analysis);
