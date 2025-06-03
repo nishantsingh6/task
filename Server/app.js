@@ -5,7 +5,11 @@ require('dotenv').config();
 app.use(express.json());
 
 const cors = require('cors');
-app.use(cors());
+
+app.use(cors({
+  origin: 'https://task-chi-nine.vercel.app', 
+  credentials: true,
+}));
 
 
 const port  = process.env.PORT || 3000;

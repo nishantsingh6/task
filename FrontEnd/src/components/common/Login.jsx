@@ -2,38 +2,43 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Spinner from './Spinner';
 import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
-  const[showPassword,setShowPassword] = useState(false);
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post('https://task-sy5x.onrender.com/api/auth/login', data);
       const { token, user } = response.data;
-      toast.success('Login Successfully');
+
+      // Store token and role in localStorage for later use
       localStorage.setItem('token', token);
-      navigate('/dashboard');
+      localStorage.setItem('role', user.role); // Store role
+
+      toast.success('Login Successfully');
+      
+      // Navigate to the dashboard based on role
+      if (user.role === 'admin') {
+        navigate('/admin-dashboard');
+      } else if (user.role === 'manager') {
+        navigate('/manager-dashboard');
+      } else {
+        navigate('/user-dashboard');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
     }
   };
 
-   return (
+  return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4 text-white">
-      {/* Form container with animated background */}
       <div className="form-container">
         <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          {/* Email Field */}
           <div className="flex flex-col gap-1">
             <label className="text-sm font-semibold text-gray-400 text-left">Email</label>
             <input
@@ -48,7 +53,6 @@ const Login = () => {
             {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
           </div>
 
-          {/* Password Field */}
           <div className="flex flex-col gap-1">
             <label className="text-sm font-semibold text-gray-400 text-left">Password</label>
             <div className="relative">
@@ -85,7 +89,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -93,11 +96,10 @@ const Login = () => {
                        border border-[#414141] hover:bg-white hover:text-black hover:border-white 
                        transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Loging in...' : 'Login'}
+            {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        {/* Signup Redirect */}
         <div className="text-center mt-6 text-sm text-gray-400">
           Don't have an account?{' '}
           <button
