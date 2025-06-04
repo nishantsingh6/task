@@ -7,10 +7,8 @@ app.use(express.json());
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'https://task-chi-nine.vercel.app', 
-  credentials: true,
+  origin: '*'
 }));
-
 
 const port  = process.env.PORT || 3000;
 app.listen(port, () => {
