@@ -10,22 +10,22 @@ import AdminDashboard from './components/dashBoards/AdminDashboard';
 import UserDashboard from './components/dashBoards/UserDashboard';
 import ManagerDashboard from './components/dashBoards/ManagerDashboard';
 import PrivateRoute from './components/navBars/PrivateRoute';
+import ProjectDashboard from './components/dashBoards/ProjectDashboard';
 
 
 const App = () => {
   const role = localStorage.getItem('role');  // Get the role from localStorage
 
   return (
-
+             
       <Routes>
-
         {/* Public Routes */}
         <Route path="/" element={<PublicNav><SignUp /></PublicNav>} />
         <Route path="/login" element={<PublicNav><Login /></PublicNav>} />
         <Route path="/signup" element={<PublicNav><SignUp /></PublicNav>} />
         <Route path="/forgot-password" element={<PublicNav><ForgotPassword /></PublicNav>} />
         <Route path="/reset-password" element={<PublicNav><ResetPassword /></PublicNav>} />
-
+        <Route path='/project' element={<ProjectDashboard/>}></Route>
         {/* Private Dashboard Routes */}
         <Route path="/dashboard" element={<PrivateRoute><DashBoard /></PrivateRoute>} />
 

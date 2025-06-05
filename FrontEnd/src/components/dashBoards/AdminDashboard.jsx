@@ -60,27 +60,27 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6">
+      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600 dark:text-indigo-400">Admin Dashboard</h1>
 
-      {/* Users Section */}
+      {/* USERS */}
       <section className="mb-10">
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="text-xl font-semibold flex items-center gap-2 text-gray-800">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
             <FaUser className="text-blue-500" /> All Users
           </h2>
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <input
               type="text"
-              placeholder="Search by name or email"
+              placeholder="Search name or email"
               value={userSearch}
               onChange={(e) => setUserSearch(e.target.value)}
-              className="p-2 border rounded"
+              className="px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
             />
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="p-2 border rounded"
+              className="px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
             >
               <option value="All">All Roles</option>
               <option value="user">User</option>
@@ -90,9 +90,9 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded shadow bg-white">
-          <table className="min-w-full text-left table-auto">
-            <thead className="bg-gray-200">
+        <div className="overflow-x-auto bg-white dark:bg-gray-800 shadow rounded">
+          <table className="min-w-full text-left text-sm">
+            <thead className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
               <tr>
                 <th className="p-3">ID</th>
                 <th className="p-3">Name</th>
@@ -101,8 +101,8 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((user) => (
-                <tr key={user.id} className="border-b hover:bg-gray-50">
+              {filteredUsers.map(user => (
+                <tr key={user.id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="p-3">{user.id}</td>
                   <td className="p-3">{user.name}</td>
                   <td className="p-3">{user.email}</td>
@@ -114,24 +114,24 @@ const AdminDashboard = () => {
         </div>
       </section>
 
-      {/* Tasks Section */}
+      {/* TASKS */}
       <section className="mb-10">
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="text-xl font-semibold flex items-center gap-2 text-gray-800">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
             <FaTasks className="text-green-500" /> All Tasks
           </h2>
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <input
               type="text"
               placeholder="Search task"
               value={taskSearch}
               onChange={(e) => setTaskSearch(e.target.value)}
-              className="p-2 border rounded"
+              className="px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
             />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="p-2 border rounded"
+              className="px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
             >
               <option value="All">All Status</option>
               <option value="Pending">Pending</option>
@@ -141,9 +141,9 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded shadow bg-white">
-          <table className="min-w-full text-left table-auto">
-            <thead className="bg-gray-200">
+        <div className="overflow-x-auto bg-white dark:bg-gray-800 shadow rounded">
+          <table className="min-w-full text-left text-sm">
+            <thead className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
               <tr>
                 <th className="p-3">ID</th>
                 <th className="p-3">Title</th>
@@ -153,8 +153,8 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredTasks.map((task) => (
-                <tr key={task.id} className="border-b hover:bg-gray-50">
+              {filteredTasks.map(task => (
+                <tr key={task.id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="p-3">{task.id}</td>
                   <td className="p-3">{task.title}</td>
                   <td className="p-3">{task.status}</td>
@@ -163,7 +163,7 @@ const AdminDashboard = () => {
                     <select
                       value={task.status}
                       onChange={(e) => handleStatusChange(task.id, e.target.value)}
-                      className="p-1 border rounded"
+                      className="px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm"
                     >
                       <option value="Pending">Pending</option>
                       <option value="In Progress">In Progress</option>
@@ -177,10 +177,10 @@ const AdminDashboard = () => {
         </div>
       </section>
 
-      {/* Pie Chart */}
-      <section>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">📊 Task Status Overview</h2>
-        <div className="bg-white p-4 shadow rounded w-full max-w-xl mx-auto">
+      {/* PIE CHART */}
+      <section className="max-w-xl mx-auto">
+        <h2 className="text-xl font-semibold mb-4 text-center">📊 Task Status Overview</h2>
+        <div className="bg-white dark:bg-gray-800 p-4 shadow rounded">
           <Pie data={pieData} />
         </div>
       </section>
